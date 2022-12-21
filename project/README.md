@@ -8,7 +8,7 @@ Can we predict the number of daily bike riders counted at a "bike counting stati
 
 We derive daily bike rider counts at a counting station in Freiburg in 2021 from the hourly measurements given in: https://www.mobidata-bw.de/dataset/eco-counter-fahrradzahler.
 
-We combine this data with temperature data taken from https://open-meteo.com/en/docs/historical-weather-api.
+We combine this data with temperature data taken from https://open-meteo.com/en/docs/historical-weather-api.  
 **TODO** Temperature data is inaccurate. See comment in data/raw/temperature/README.md
 
 (Business-day vs. weekend: Whether a given date is a business day or weekend can be inferred computationally from the date.)
@@ -19,5 +19,5 @@ We construct a linear regression model, assuming the number of counted bikerider
 
 
 # Contents
-* **analyses**: contains scripts to build the dataset and to analyze the data
+* **data_processing**: contains scripts to build the dataset and to analyze the data
 * **data**: contains the raw data as well as the combined dataset (bike rider counts, temperature and weekday information)
