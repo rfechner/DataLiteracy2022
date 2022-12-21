@@ -1,0 +1,1 @@
+This folder contains the bike rider count data taken from https://www.mobidata-bw.de/dataset/eco-counter-fahrradzahler.
