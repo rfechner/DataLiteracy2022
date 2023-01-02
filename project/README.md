@@ -8,8 +8,7 @@ Can we predict the number of daily bike riders counted at a "bike counting stati
 
 We derive daily bike rider counts at a counting station in Freiburg in 2021 from the hourly measurements given in: https://www.mobidata-bw.de/dataset/eco-counter-fahrradzahler.
 
-We combine this data with temperature data taken from https://open-meteo.com/en/docs/historical-weather-api.  
-**TODO** Temperature data is inaccurate. See comment in data/raw/temperature/README.md
+We combine this data with temperature data taken from https://dev.meteostat.net/python/.
 
 (Business-day vs. weekend: Whether a given date is a business day or weekend can be inferred computationally from the date.)
 
