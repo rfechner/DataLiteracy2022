@@ -1,0 +1,77 @@
+2023-01-07
+--------------------------------------------------------------------------------
+
+- Results of frequentist analysis, permutation testing
+    --> model performs significantly better than random guessing (on training data)
+        but it does not generalize well to another city (Ulm)
+
+- Possible reasons for poor generalization:
+    - too many differences between counter sites:
+        - number of inhabitants
+        - location within city: small vs. large street, city center vs. suburb
+
+- Possible next steps to achieve better generalization performance:
+    - train on standardized count data and multiply by counter site constant for
+        prediction
+    - build hierarchical model: city --> counter site --> daily bike count
+        Our dataset is already prepared for this step.
+        We built a dataset that contains daily bike rider counts and daily
+        average temperature as well as weekday information for 25 counter sites.
+        (We would use data of only one channel (one direction of travel) per
+        counter site in order to avoid violating the independence assumption.)
+
+- Reasons for not pooling data...
+    ... of different channels at one counter site:
+            might violate the independence assumption (e.g., counters of
+            different directions of travel might count the same bike riders)
+    ... of different counter sites:
+            By pooling data of different counter sites, we would ignore a
+            (possible) inherent "structure" in the data.
+            Example:
+            Assume bike rider counts increase with temperature at
+            one counter site but decrease with temperature at another counter
+            site. Assume that the absolute slopes (m) and the intercept (b) for
+            0°C are the same at both counter sites. For example:
+            counts1 = m*x + b
+            counts2 = -m*x + b
+            The analysis of the pooled data of both counter sites might show no
+            significant effect of temperature - even tough there might be a
+            significant effect at each individual counter site; together with a
+            "counter site effect".
+
+- Data cleaning criteria
+    - drop days with != 24 hourly measurements
+    - drop days which are part of a "more than 5 days 0-count-streak"
+        --> use data from counter sites where this is not an issue
+        - to discuss: increase threshold (> 25 days?)
+
+- Bayes: comparison of posterior distributions with our expectations
+    - expected interaction (that is: different slopes on weekend and business
+        days) did not occur
+
+- Possible reasons for "missing" interaction
+    - did not account for holidays
+
+- Model assumptions, posterior predictive check
+    - assumptions of Poisson distribution are not satisfied, i.e., variance does
+        not grow with mean
+    - assumptions of Normal distribution are also not satisfied because we have
+        discrete data (counts) - but seems to be much more appropriate than
+        Poisson, i.e., posterior predictive check looks good
+
+- Choice of parameter values for prior distributions
+    --> compare results (posterior distributions) obtained with various 
+        parameter values for prior distributions
+
+- Model performance
+    - Median absolute error
+        --> interpretation depends on application
+    - Cross validation: evaluate predictive accuracy
+    - poor generalization to other locations (possible reasons: see above)
+    - possibly add: test model on 2022 data (same counter site)
+
+- Further possibilities (already mentioned above, summarized here):
+    - test model on 2022 data (same counter site)
+   // too much work / too much additional explanation in report:
+   (- build model on standardized counter data)
+   (- hierarchical model)
