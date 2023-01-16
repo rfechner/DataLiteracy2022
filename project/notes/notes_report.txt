@@ -1,0 +1,112 @@
+General Notes:
+--------------------------------------------------------------------------------
+- Most importantly, as Janne pointed out in the first meeting: differentiate what is your own vs. found on the Internet
+- for methods and results: https://nyu-cdsc.github.io/learningr/assets/kruschke_bayesian_in_R.pdf, Kapitel 25.1 „Reporting a Bayesian analysis“ (S. 721-725)
+
+
+INTRODUCTION
+--------------------------------------------------------------------------------
+
+Fragestellung, Motivation.
+Janne: „look for existing research“
+
+Air pollution
+Too little space for too many people traveling by car.
+Smart cities as goal.
+
+Oskarbski et al. (2021): „Urban transport systems face major challenges due to the growth in private vehicle ownership and motorisation rates (number of private vehicles per number of inhabitants [1,2].“
+
+Biking is healthy. (Quelle?)
+„It can not only provide substantial health benefits for the cyclist (de Hartog et al., 2010), but also contribute to reducing pollution and congestion (Krizek, 2007)“ (see Wessel, 2020)
+
+Motivation:
+Why might it be useful to predict rider count / find predictors for rider count?
+→ predict when to open bicycle-specific roads / close them for cars.
+→ predict when to use more busses / trains (such that people won’t use their car just because it is cold and busses are too packed).
+→ find out which variables to correct for when evaluation whether policy programs (to increase rider count) have their intended effect.
+
+Motivation für Faktor „temperature“: Eigene Erfahrung + Literatur …
+
+Motivation, den Faktor „is weekend“ sowie Interaktion einzuführen / dafür, dass das sinnvoll sein könnte:
+Eigene Erfahrung + Literatur, zum Beispiel:
+„Public holidays and weekends, have been identified as a factor influencing ridership patterns (Corcoran et al. 2014; Borgnat et al. 2011; Brandenburg et al. 2007).“ (An et al., 2019)
+„Moreover, it has been shown that there are effect differences between utilitarian and recreational bicycle traffic (Nosal and Miranda-Moreno, 2014; Zhao et al., 2018)“ (Goldmann et al., 2020)
+„The regression analyses show that, not surprisingly, recreational demand is much more sensitive to weather than utilitarian demand“ (Thomas et al., 2013)
+„Given that Cools et al. (2010) or Zhao et al. (2019) have shown that the trip type influences the response to adverse weather conditions […]“ (Goldmann et al., 2020)       
+
+(Quellen: Am besten Primärquelle finden… Zur Not: als „Autor1, Jahr1, zitiert nach Autor2, Jahr2“ sekundär zitieren.)
+
+Hypothesen aufführen (und durch Vorwissen begründen)
+
+METHODS
+--------------------------------------------------------------------------------
+
+Data description:
+-----------------
+See Wessel (2020) and Goldmann & Wessel (2020) for eco-counter description.
+Auch Genauigkeit der Messungen/Messinstrumente berichten.
+Beachte: FR1 ist Messung an Fahrradstraße (Fahrräder haben Vorfahrt, dürfen nebeneinander fahren, …) Zumindest berichten. Vielleicht Einschränkung für Schlussfolgerungen?
+
+Test set
+
+Meteostat data… possibly average over measurement sites...
+
+Data processing/cleaning:
+-------------------------
+Compute daily sums of bike rider counts.
+Exclude daily sums of days for which not exactly 24 hourly measurements are available, or which are part of a streak of 0-count-days that lastet more than 5 (?) days.
+
+Analysis
+--------
+
+Model assumptions nennen (mit Literatur Modellauswahl begründen?) und bestenfalls mit posterior predictive check „prüfen“.
+
+Kurz beschreiben, warum wir Bayes genommen haben? Intuitive explanation, uncertainty information, incorporate prior knowledge, …
+
+Priors nennen und Auswahl erklären
+
+Fitting procedure beschreiben/erklären (used package pymc3… sampler… chains converged… same for all chains... effective sample size…)
+
+Cross validation
+Test on test sets
+
+RESULTS
+--------------------------------------------------------------------------------
+
+Ergebnisse (mit Abbildungen) (posteriors… credible intervals… (cross-validated) MAE…, for original + test set, evtl. Ergebnis-Vergleich zwischen verschiedenen Verteilungen) berichten
+
+DISCUSSION
+--------------------------------------------------------------------------------
+
+Schlussfolgerungen für Hypothesen ziehen
+------------------
+Dazu vielleicht auch:
+Test for another city, generalization?
+Thomas et al. (2013): „The regression coefficients show to be site-specific, and not transferable from one site to another“ Bei uns auch so?
+
+
+Schlussfolgerungen für „Welt“? Modell nützlich? (ob „nützlich“ hängt vielleicht auch von Anwendungsfall / Gegebenheiten vor Ort ab: An einer Straße ist es vielleicht egal, ob Vorhersage im Mittel x Zähler daneben ist, und an anderer Straße bräuchte man genauere Vorhersage, um nützlich zu sein) Temperatur und Wochentag geeignete Prädiktoren?
+------------------
+
+Anwendungen:
+------------
+- correct for temperature (in the future): see whether policy… programs (to enhance bike ridership) work (and show that possibly rising/declining trends are not just due to temperatures…)
+- Help to find out:
+When to open bicycle-specific roads? When to use more busses/trains?
+Do policy programs have their intended effect?
+
+- predict bike rider ship as climate changes … gets warmer … plan city usage accordingly, e.g., plan more bicycle roads if the analysis shows that people bike more in warmer weather.
+
+Weitere Untersuchungen / shortcomings of our analysis/data:
+-----------------------------------------------------------
+- Stadt vs. Land vielleicht ganz verschieden?
+- verschiedene Städte vielleicht ganz verschieden?
+- Mehrere Jahre betrachten… Long-term trends?
+- Other variables to explain differences between counter sites?
+- Other relevant predictors that might improve predictions (at a single counter site)?
+- Take (wrong) weather forecast into consideration as predictor (see Wessel, 2020)
+- Linear… : could possibly become negative… negative bike rider counts are impossible – we assume that this is not an issue for the temperatures of interest (-10 to 30 °C)
+- Normal distribution: „count data“. Need to round predictions?
+- weekday information: Kategorie „Werktag“ schließt aktuell auch Ferien und Feiertage ein. Sollte man eher wie Wochenende behandeln.
+- Daten verschiedener counter sites berücksichtigen. Hierarchical model?
+- linear relationship? For really high temperature, expect decrease of rider count.
