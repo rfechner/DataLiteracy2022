@@ -20,3 +20,4 @@ We construct a linear regression model, assuming the number of counted bikerider
 # Contents
 * **data_processing**: contains scripts to inspect the raw data, to build the dataset and to analyze the data
 * **data**: contains the raw data as well as the combined dataset (bike rider counts, temperature and weekday information)
+* **plots**: contains code to create the plots for the final report
