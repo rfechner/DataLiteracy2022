@@ -40,8 +40,30 @@ def plot_data(data=mdl.get_data_for_location(), ylabel='Daily number of bike rid
 # --------------------------------------------------
 
 def plot_linear_fit(intercept, slope, intercept_business_days, slope_interaction, label_non_busday_fit=None, label_busday_fit=None, alpha=1):
-    # TODO kommentieren
+    '''
+    Plot linear fit.
 
+    Parameters
+    ----------
+    intercept : number
+        Intercept of the regression line for non-business days.
+    slope : number
+        Slope of the regression line for non-business days.
+    intercept_business_days : number
+        Additional intercept of the regression line for business days.
+    slope_interaction : number
+        Additional slope of the regression line for business days.
+    label_non_busday_fit : str
+        Label for fitted line to non-business days.
+    label_busday_fit : str
+        Label for fitted line to business days.
+    alpha : number
+        Opacitiy of plotted lines.
+    
+    Returns
+    -------
+    (plot)
+    '''
     # plot fit
     x_temps = np.linspace(-5, 25, 10)
     plt.plot(x_temps, intercept +  x_temps * slope, label=label_non_busday_fit, color='blue', alpha=alpha)
@@ -49,8 +71,30 @@ def plot_linear_fit(intercept, slope, intercept_business_days, slope_interaction
     plt.legend();
 
 def plot_exponential_fit(intercept, slope, intercept_business_days, slope_interaction, label_non_busday_fit=None, label_busday_fit=None, alpha=1):
-    # TODO kommentieren
+    '''
+    Plot linear fit.
 
+    Parameters
+    ----------
+    intercept : number
+        Intercept of the regression line for non-business days.
+    slope : number
+        Slope of the regression line for non-business days.
+    intercept_business_days : number
+        Additional intercept of the regression line for business days.
+    slope_interaction : number
+        Additional slope of the regression line for business days.
+    label_non_busday_fit : str
+        Label for fitted line to non-business days.
+    label_busday_fit : str
+        Label for fitted line to business days.
+    alpha : number
+        Opacitiy of plotted lines.
+    
+    Returns
+    -------
+    (plot)
+    '''
     # plot fit
     x_temps = np.linspace(-5, 25, 10)
     plt.plot(x_temps, np.exp(intercept +  x_temps * slope), label=label_non_busday_fit, color='blue', alpha=alpha)
@@ -60,9 +104,8 @@ def plot_exponential_fit(intercept, slope, intercept_business_days, slope_intera
 
 def plot_data_and_fit(intercept, slope, intercept_business_days, slope_interaction, plot_fun_fit, is_bayes=False):
     '''
-    Plot data and fit. Fitted function has the given parameter values
-    (intercept, ...) and the form defined by plot_fun_fit.
-    TODO besser kommentieren
+    Plot data and fit. Fitted function has the given parameter values and the
+    form defined by plot_fun_fit.
 
     Parameters
     ----------
@@ -78,7 +121,7 @@ def plot_data_and_fit(intercept, slope, intercept_business_days, slope_interacti
         Function to use for plotting the fitted regression lines.
         Either plot_linear_fit or plot_exponential_fit.
     is_bayes : boolean
-        TODO whether fit derived from Bayes...
+        indicates whether fit derived with Bayes, adjusts labels accordingly.
     
     Returns
     -------
@@ -100,14 +143,10 @@ def plot_data_and_fit(intercept, slope, intercept_business_days, slope_interacti
 
 
 def plot_data_and_linear_fit(intercept, slope, intercept_business_days, slope_interaction, is_bayes=False):
-    # TODO kommentieren
-
     plot_data_and_fit(intercept, slope, intercept_business_days, slope_interaction, plot_linear_fit, is_bayes)
 
 
 def plot_data_and_exponential_fit(intercept, slope, intercept_business_days, slope_interaction, is_bayes=False):
-    # TODO kommentieren
-    
     plot_data_and_fit(intercept, slope, intercept_business_days, slope_interaction, plot_exponential_fit, is_bayes)
 
 
@@ -120,12 +159,11 @@ def plot_data_and_exponential_fit(intercept, slope, intercept_business_days, slo
 def show_data_MAP_and_posts(idata, plot_fun_fit):
     '''
     Plot data, MAP and example posteriors.
-    # TODO besser formulieren / kommentieren
 
     Parameters
     ----------
     idata : idata
-        inference data... sampled ... contains posterior... of parameters... TODO
+        inference data
     plot_fun_fit
         Function to use for plotting the fitted regression lines.
         Either plot_linear_fit or plot_exponential_fit.
@@ -136,23 +174,22 @@ def show_data_MAP_and_posts(idata, plot_fun_fit):
     postbetas_intercept_business_days = idata.posterior["beta_intercept_business_days"].values.flatten()
     postbetas_slope_interaction = idata.posterior["beta_slope_interaction"].values.flatten()
 
-    # plot some posteriors as examples # TODO gibt es da Funktion für?
+    # plot some posteriors as examples
 
-    num_posts_to_plot = 40 # number of posteriors to plot # TODO Benennung richtig? samples?
+    num_posts_to_plot = 40 # number of posteriors to plot
 
     # draw random indices (--> random examples)
     rand_indices = np.random.choice(a=len(postbetas_intercept), size=num_posts_to_plot, replace=False)
 
-    # plot example posteriors # TODO Benennung richtig? samples?
+    # plot example posteriors
     for i, idx in enumerate(rand_indices):
 
         # temperature range
-        x_temps = np.linspace(-10, 30, 10) # TODO adjust range
+        x_temps = np.linspace(-10, 30, 10)
 
         if (i == 0): # add label for first plotted posterior
             plot_fun_fit(postbetas_intercept[idx], postbetas_slope[idx], postbetas_intercept_business_days[idx], postbetas_slope_interaction[idx], 'non_busday posteriors', 'busday posteriors', alpha=0.3)
         else:
-            # TODO adjust alpha
             plot_fun_fit(postbetas_intercept[idx], postbetas_slope[idx], postbetas_intercept_business_days[idx], postbetas_slope_interaction[idx], alpha=0.3)
     
     # plot data and MAP
@@ -253,7 +290,6 @@ def plot_posterior(idata, var_name, kind='kde', color='blue', alpha=0.5, label=N
     # add mean
     if (plot_mean):
         plt.axvline(x=posterior.mean(), color=color, label='mean='+str(round(posterior.mean())))
-        # TODO use different linetype for mean and kde
 
     # add 95% HDI
     if (plot_hdi):
@@ -310,7 +346,7 @@ def plot_posteriors(models_dat, model_indices, var_names, kind='kde', alpha=0.5,
     # initialize figure
     plt.figure(figsize=(20,4))
 
-    # colors for models # TODO draw len(model_indices) colors dynamically
+    # colors for models
     colors = ['royalblue', 'lime', 'darkviolet', 'magenta', 'tomato', 'cyan', 'peru', 'darkgreen']
 
     for var_idx, var_name in enumerate(var_names):
@@ -324,8 +360,8 @@ def plot_posteriors(models_dat, model_indices, var_names, kind='kde', alpha=0.5,
     plt.tight_layout()
 
 
-# TODO aus https://www.youtube.com/watch?v=tKJDIN4Y7LE, editiert
 # plot density
+# taken from https://www.youtube.com/watch?v=tKJDIN4Y7LE, edited
 def plot_cont(self, label=None, color='blue'):
     samples = self.random(size=1000)
     x = np.linspace(np.min(samples), np.max(samples), 1000)

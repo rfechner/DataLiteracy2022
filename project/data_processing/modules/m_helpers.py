@@ -12,7 +12,22 @@ def create_prior_config_dict(mu_intercept_prior, sigma_intercept_prior, mu_slope
         Expected value of normal distribution for intercept prior.
     sigma_intercept_prior : number
         Standard deviation of normal distribution for intercept prior.
-    TODO weiter kommentieren
+    mu_slope_prior : number
+        Expected value of normal distribution for slope prior.
+    sigma_slope_prior : number
+        Standard deviation of normal distribution for slope prior.
+    mu_intercept_business_days_prior : number
+        Expected value of normal distribution for additional intercept prior
+        on business days.
+    sigma_intercept_business_days_prior : number
+        Standard deviation of normal distribution additional intercept prior
+        on business days.
+    mu_slope_interaction_prior : number
+        Expected value of normal distribution for additional slope prior
+        on business days.
+    sigma_slope_interaction_prior : number
+        Standard deviation of normal distribution for additional slope prior
+        on business days.
     truncate_intercept_prior : bool
         indicates whether to use the truncated normal distribution for the
         intercept prior; truncated with left bound = 0.
